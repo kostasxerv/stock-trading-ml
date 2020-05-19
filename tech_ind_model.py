@@ -5,16 +5,15 @@ from keras.layers import Dense, Dropout, LSTM, Input, Activation, concatenate
 from keras import optimizers
 import numpy as np
 np.random.seed(4)
-from tensorflow import set_random_seed
-set_random_seed(4)
+tf.random.set_seed(4)
 from util import csv_to_dataset, history_points
 
 
 # dataset
 
-ohlcv_histories, technical_indicators, next_day_open_values, unscaled_y, y_normaliser = csv_to_dataset('MSFT_daily.csv')
+ohlcv_histories, technical_indicators, next_day_open_values, unscaled_y, y_normaliser = csv_to_dataset('AAPL_intraday.csv')
 
-test_split = 0.9
+test_split = 0.8
 n = int(ohlcv_histories.shape[0] * test_split)
 
 ohlcv_train = ohlcv_histories[:n]
@@ -80,6 +79,7 @@ plt.gcf().set_size_inches(22, 15, forward=True)
 start = 0
 end = -1
 
+fig = plt.figure()
 real = plt.plot(unscaled_y_test[start:end], label='real')
 pred = plt.plot(y_test_predicted[start:end], label='predicted')
 
@@ -92,3 +92,4 @@ plt.show()
 
 from datetime import datetime
 model.save(f'technical_model.h5')
+fig.savefig('tech_ind_model_figure.png')

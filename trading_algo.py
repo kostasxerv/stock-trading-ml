@@ -4,7 +4,7 @@ from util import csv_to_dataset, history_points
 
 model = load_model('technical_model.h5')
 
-ohlcv_histories, technical_indicators, next_day_open_values, unscaled_y, y_normaliser = csv_to_dataset('MSFT_daily.csv')
+ohlcv_histories, technical_indicators, next_day_open_values, unscaled_y, y_normaliser = csv_to_dataset('AAPL_intraday.csv')
 
 test_split = 0.9
 n = int(ohlcv_histories.shape[0] * test_split)
@@ -69,7 +69,7 @@ compute_earnings([b for b in buys], [s for s in sells])
 import matplotlib.pyplot as plt
 
 plt.gcf().set_size_inches(22, 15, forward=True)
-
+fig = plt.figure()
 real = plt.plot(unscaled_y_test[start:end], label='real')
 pred = plt.plot(y_test_predicted[start:end], label='predicted')
 
@@ -84,3 +84,4 @@ if len(sells) > 0:
 plt.legend(['Real', 'Predicted', 'Buy', 'Sell'])
 
 plt.show()
+fig.savefig('trading_algo.png')
